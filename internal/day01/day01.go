@@ -38,3 +38,48 @@ func RunPartOne() {
 
 	fmt.Println(result)
 }
+
+func RunPartTwo() {
+	a := []int{}
+	b := []int{}
+	for _, v := range strings.Split(input, "\n") {
+		x := strings.Fields(v)
+		if len(x) > 0 {
+			x1, _ := strconv.Atoi(x[0])
+			a = append(a, x1)
+			x2, _ := strconv.Atoi(x[1])
+			b = append(b, x2)
+		}
+	}
+
+	slices.Sort(a)
+	slices.Sort(b)
+
+	right := b[:]
+	result := 0
+	count := 0
+	for i, x := range a {
+
+		if count == 0 {
+			for _, y := range right {
+				if y > x {
+					break
+				} else if y < x {
+					continue
+				}
+				count++
+			}
+		}
+
+		result += x * count
+
+		if i < len(a)-1 && x != a[i+1] {
+			if count < len(right) {
+				right = right[count:]
+			}
+			count = 0
+		}
+	}
+
+	fmt.Println(result)
+}
