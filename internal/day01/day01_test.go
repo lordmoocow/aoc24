@@ -13,7 +13,16 @@ func TestDayOnePartOne(t *testing.T) {
 	want := 11
 	result := d.PartOne()
 	if result != want {
-		t.Fatalf(`Day1.PartOne = %d, want match for %d`, result, want)
+		t.Fatalf(`Day1.PartOne got %d but expected %d`, result, want)
+	}
+}
+
+func BenchmarkDayOnePartOne(b *testing.B) {
+	d := Day1{}
+	d.Init(assets.InputData(1))
+
+	for i := 0; i < b.N; i++ {
+		d.PartOne()
 	}
 }
 
@@ -24,6 +33,15 @@ func TestDayOnePartTwo(t *testing.T) {
 	want := 31
 	result := d.PartTwo()
 	if result != want {
-		t.Fatalf(`Day1.PartOne = %d, want match for %d`, result, want)
+		t.Fatalf(`Day1.PartOne got %d but expected %d`, result, want)
+	}
+}
+
+func BenchmarkDayOnePartTwo(b *testing.B) {
+	d := Day1{}
+	d.Init(assets.InputData(1))
+
+	for i := 0; i < b.N; i++ {
+		d.PartTwo()
 	}
 }
