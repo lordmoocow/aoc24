@@ -66,6 +66,23 @@ func abs(x *int) {
 }
 
 func (d *Day2) PartTwo() int {
-	return -1
+	safe := 0
+	for _, report := range d.reports {
+		if checkSafeWithDampener(report) {
+			safe++
+		}
+	}
+	return safe
 }
 
+func checkSafeWithDampener(report []int) bool {
+	for i := 0; i < len(report); i++ {
+		// there must be a better way than this
+		damped := append([]int{}, report[:len(report)-1]...)
+		damped = append(damped[:i], report[i+1:]...)
+		if checkSafe(damped) {
+			return true
+		}
+	}
+	return false
+}
