@@ -1,64 +1,57 @@
 package day1
 
 import (
-	_ "embed"
-	"fmt"
 	"slices"
 	"strconv"
 	"strings"
 )
 
-//go:embed input
-var input string
+type Day1 struct {
+	left  []int
+	right []int
+}
 
-func RunPartOne() {
-	a := []int{}
-	b := []int{}
-	for _, v := range strings.Split(input, "\n") {
-		x := strings.Fields(v)
-		if len(x) > 0 {
-			x1, _ := strconv.Atoi(x[0])
-			a = append(a, x1)
-			x2, _ := strconv.Atoi(x[1])
-			b = append(b, x2)
+func (d *Day1) Init(input string) {
+	// Split input by line
+	lines := strings.Split(input, "\n")
+
+	// Set known capacity
+	d.left = make([]int, len(lines))
+	d.right = make([]int, len(lines))
+
+	for i, line := range lines {
+		fields := strings.Fields(line)
+		if len(fields) > 0 {
+			d.left[i], _ = strconv.Atoi(fields[0])
+			d.right[i], _ = strconv.Atoi(fields[1])
 		}
 	}
+}
 
-	slices.Sort(a)
-	slices.Sort(b)
+func (d *Day1) PartOne() int {
+	slices.Sort(d.left)
+	slices.Sort(d.right)
 
 	result := 0
-	for i := 0; i < len(a); i++ {
-		distance := a[i] - b[i]
+	for i := 0; i < len(d.left); i++ {
+		distance := d.left[i] - d.right[i]
 		if distance < 0 {
 			distance *= -1
 		}
 		result += distance
 	}
 
-	fmt.Println(result)
+	return result
 }
 
-func RunPartTwo() {
-	a := []int{}
-	b := []int{}
-	for _, v := range strings.Split(input, "\n") {
-		x := strings.Fields(v)
-		if len(x) > 0 {
-			x1, _ := strconv.Atoi(x[0])
-			a = append(a, x1)
-			x2, _ := strconv.Atoi(x[1])
-			b = append(b, x2)
-		}
-	}
+func (d *Day1) PartTwo() int {
+	slices.Sort(d.left)
+	slices.Sort(d.right)
 
-	slices.Sort(a)
-	slices.Sort(b)
-
-	right := b[:]
+	right := d.right[:]
 	result := 0
 	count := 0
-	for i, x := range a {
+	for i, x := range d.left {
 
 		if count == 0 {
 			for _, y := range right {
@@ -73,7 +66,7 @@ func RunPartTwo() {
 
 		result += x * count
 
-		if i < len(a)-1 && x != a[i+1] {
+		if i < len(d.left)-1 && x != d.left[i+1] {
 			if count < len(right) {
 				right = right[count:]
 			}
@@ -81,5 +74,5 @@ func RunPartTwo() {
 		}
 	}
 
-	fmt.Println(result)
+	return result
 }
