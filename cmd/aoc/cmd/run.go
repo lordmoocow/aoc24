@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/lordmoocow/aoc24/assets"
 	"github.com/lordmoocow/aoc24/internal/aoc"
 	day1 "github.com/lordmoocow/aoc24/internal/day01"
 	"github.com/spf13/cobra"
@@ -23,7 +24,8 @@ var runCmd = &cobra.Command{
 			panic(err)
 		}
 
-		result := run(dayNumber, partNumber)
+		input := assets.InputData(dayNumber)
+		result := run(dayNumber, partNumber, input)
 		fmt.Printf("Day %d, Part %d: %d\r\n", dayNumber, partNumber, result)
 	},
 }
@@ -41,9 +43,9 @@ func getDay(day int) aoc.Day {
 	return nil
 }
 
-func run(day, part int) int {
+func run(day, part int, input string) int {
 	d := getDay(day)
-	d.Init()
+	d.Init(input)
 
 	switch part {
 	case 1:

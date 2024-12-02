@@ -1,7 +1,7 @@
 package aoc
 
 type Day interface {
-	Init()
+	Init(string)
 	PartOne() int
 	PartTwo() int
 }

@@ -1,21 +1,17 @@
 package day1
 
 import (
-	_ "embed"
 	"slices"
 	"strconv"
 	"strings"
 )
-
-//go:embed input
-var input string
 
 type Day1 struct {
 	left  []int
 	right []int
 }
 
-func (d *Day1) Init() {
+func (d *Day1) Init(input string) {
 	// Split input by line
 	lines := strings.Split(input, "\n")
 

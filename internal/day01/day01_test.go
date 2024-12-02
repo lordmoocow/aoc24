@@ -1,18 +1,14 @@
 package day1
 
 import (
-	_ "embed"
 	"testing"
+
+	"github.com/lordmoocow/aoc24/assets"
 )
 
-//go:embed test
-var testinput string
-
-func TestPartOne(t *testing.T) {
-	input = testinput
-
+func TestDayOnePartOne(t *testing.T) {
 	d := Day1{}
-	d.Init()
+	d.Init(assets.TestData(1))
 
 	want := 11
 	result := d.PartOne()
@@ -21,11 +17,9 @@ func TestPartOne(t *testing.T) {
 	}
 }
 
-func TestPartTwo(t *testing.T) {
-	input = testinput
-
+func TestDayOnePartTwo(t *testing.T) {
 	d := Day1{}
-	d.Init()
+	d.Init(assets.TestData(1))
 
 	want := 31
 	result := d.PartTwo()
