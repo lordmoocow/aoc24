@@ -30,7 +30,7 @@ func TestDayTwoPartTwo(t *testing.T) {
 	d := Day2{}
 	d.Init(assets.TestData(2))
 
-	want := 14
+	want := 4
 	result := d.PartTwo()
 	if result != want {
 		t.Fatalf(`Day2.PartTwo got %d but expected %d`, result, want)
