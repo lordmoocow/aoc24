@@ -75,11 +75,17 @@ func (d *Day2) PartTwo() int {
 	return safe
 }
 
+var scratch = [10]int{}
+
 func checkSafeWithDampener(report []int) bool {
-	for i := 0; i < len(report); i++ {
-		// there must be a better way than this
-		damped := append([]int{}, report[:len(report)-1]...)
-		damped = append(damped[:i], report[i+1:]...)
+	for i := range report {
+		// copy slice before and after i into scratch space
+		// this "removes" the value at i from the report
+		copy(scratch[:i], report[:i])
+		copy(scratch[i:], report[i+1:])
+		damped := scratch[:len(report)-1]
+
+		// check the updated report is safe
 		if checkSafe(damped) {
 			return true
 		}

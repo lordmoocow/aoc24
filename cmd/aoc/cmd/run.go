@@ -8,6 +8,7 @@ import (
 	"github.com/lordmoocow/aoc24/internal/aoc"
 	day1 "github.com/lordmoocow/aoc24/internal/day01"
 	day2 "github.com/lordmoocow/aoc24/internal/day02"
+	day3 "github.com/lordmoocow/aoc24/internal/day03"
 	"github.com/spf13/cobra"
 )
 
@@ -41,6 +42,8 @@ func getDay(day int) aoc.Day {
 		return &day1.Day1{}
 	case 2:
 		return &day2.Day2{}
+	case 3:
+		return &day3.Day3{}
 	}
 
 	return nil
