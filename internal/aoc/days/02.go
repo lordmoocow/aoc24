@@ -28,14 +28,13 @@ func (d *Day2) Init(input string) {
 	}
 }
 
-func (d *Day2) PartOne() int {
-	safe := 0
+func (d *Day2) PartOne() (safeReports int) {
 	for _, report := range d.reports {
 		if d.checkSafe(report) {
-			safe++
+			safeReports++
 		}
 	}
-	return safe
+	return safeReports
 }
 
 func (d *Day2) checkSafe(report []int) bool {
@@ -64,14 +63,13 @@ func abs(x *int) {
 	}
 }
 
-func (d *Day2) PartTwo() int {
-	safe := 0
+func (d *Day2) PartTwo() (safeReports int) {
 	for _, report := range d.reports {
 		if d.checkSafeWithDampener(report) {
-			safe++
+			safeReports++
 		}
 	}
-	return safe
+	return safeReports
 }
 
 func (d *Day2) checkSafeWithDampener(report []int) bool {
