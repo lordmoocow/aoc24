@@ -15,10 +15,13 @@ func (d *Day3) Init(input string) {
 }
 
 func (d *Day3) PartOne() int {
-	corruptInstructions := strings.Split(strings.TrimSpace(d.data), "mul(")
+	return processInstructions(d.data)
+}
+
+func processInstructions(memory string) int {
+	corruptInstructions := strings.Split(strings.TrimSpace(memory), "mul(")
 
 	result := 0
-	//instructions := make([][2]int, 0, len(corruptInstructions))
 
 outer:
 	for _, ci := range corruptInstructions {
@@ -42,7 +45,6 @@ outer:
 				break
 			}
 		}
-		//instructions = append(instructions, instruction)
 		result += mul(instruction)
 	}
 
@@ -58,5 +60,11 @@ func mul(instruction []int) int {
 }
 
 func (d *Day3) PartTwo() int {
-	return -1
+	result := 0
+	do := strings.Split(strings.TrimSpace(d.data), "do()")
+	for _, d := range do {
+		do := strings.SplitAfterN(d, "don't()", 2)[0]
+		result += processInstructions(do)
+	}
+	return result
 }
