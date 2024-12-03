@@ -3,7 +3,7 @@ package day1
 import (
 	"testing"
 
-	"github.com/lordmoocow/aoc24/assets"
+	"github.com/lordmoocow/aoc24/internal/assets"
 )
 
 func TestDayOnePartOne(t *testing.T) {

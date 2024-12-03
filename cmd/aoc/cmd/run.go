@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/lordmoocow/aoc24/assets"
 	"github.com/lordmoocow/aoc24/internal/aoc"
 	day1 "github.com/lordmoocow/aoc24/internal/day01"
 	day2 "github.com/lordmoocow/aoc24/internal/day02"
 	day3 "github.com/lordmoocow/aoc24/internal/day03"
+	"github.com/lordmoocow/aoc24/internal/assets"
 	"github.com/spf13/cobra"
 )
 
