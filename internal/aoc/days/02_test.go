@@ -1,9 +1,9 @@
-package day2
+package days
 
 import (
 	"testing"
 
-	"github.com/lordmoocow/aoc24/assets"
+	"github.com/lordmoocow/aoc24/internal/assets"
 )
 
 func TestDayTwoPartOne(t *testing.T) {

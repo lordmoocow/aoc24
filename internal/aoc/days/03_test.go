@@ -1,9 +1,9 @@
-package day3
+package days
 
 import (
 	"testing"
 
-	"github.com/lordmoocow/aoc24/assets"
+	"github.com/lordmoocow/aoc24/internal/assets"
 )
 
 func TestDayThreePartOne(t *testing.T) {
@@ -27,7 +27,7 @@ func BenchmarkDayThreePartOne(b *testing.B) {
 	}
 }
 
-func TestDayTwoPartTwo(t *testing.T) {
+func TestDayThreePartTwo(t *testing.T) {
 	d := Day3{}
 	d.Init("xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))")
 

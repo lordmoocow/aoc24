@@ -1,4 +1,4 @@
-package day1
+package days
 
 import (
 	"slices"
@@ -28,11 +28,10 @@ func (d *Day1) Init(input string) {
 	}
 }
 
-func (d *Day1) PartOne() int {
+func (d *Day1) PartOne() (result int) {
 	slices.Sort(d.left)
 	slices.Sort(d.right)
 
-	result := 0
 	for i := 0; i < len(d.left); i++ {
 		distance := d.left[i] - d.right[i]
 		if distance < 0 {
@@ -44,12 +43,11 @@ func (d *Day1) PartOne() int {
 	return result
 }
 
-func (d *Day1) PartTwo() int {
+func (d *Day1) PartTwo() (result int) {
 	slices.Sort(d.left)
 	slices.Sort(d.right)
 
 	right := d.right[:]
-	result := 0
 	count := 0
 	for i, x := range d.left {
 
