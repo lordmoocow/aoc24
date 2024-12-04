@@ -7,7 +7,8 @@ import (
 )
 
 type Day3 struct {
-	data string
+	data    string
+	scratch [2]int
 }
 
 func (d *Day3) Init(input string) {
@@ -18,34 +19,35 @@ func (d *Day3) PartOne() int {
 	return d.processInstructions(d.data)
 }
 
-func (d *Day3) processInstructions(memory string) int {
-	corruptInstructions := strings.Split(strings.TrimSpace(memory), "mul(")
+func (d *Day3) processInstructions(memory string) (result int) {
+	// if we split on mul( we know that the start of every element is a potential instruction
+	instructions := strings.Split(strings.TrimSpace(memory), "mul(")
 
-	result := 0
+scanInstructions:
+	for _, ci := range instructions {
+		// we know we have a valid start, so just find the end and discard the rest
+		instructionBody, _, valid := strings.Cut(ci, ")")
+		// if it never ends then it can't be valid
+		if !valid {
+			continue
+		}
+		// split out param values to examine
+		rawParams := strings.Split(instructionBody, ",")
 
-outer:
-	for _, ci := range corruptInstructions {
-		fields := strings.Split(ci, ",")
-
-		instruction := []int{}
-		for _, f := range fields {
-			// take first part if the instruction ends
-			fs := strings.Split(f, ")")
-			// check all characters of field are digits
-			for _, c := range fs[0] {
+		for i, p := range rawParams {
+			// check all characters are digits
+			for _, c := range p {
+				// if we find anything invalid at this point we know this instruction is corrupt
+				// move on to the next one
 				if !unicode.IsDigit(c) {
-					continue outer
+					continue scanInstructions
 				}
 			}
-			i, _ := strconv.Atoi(fs[0])
-			instruction = append(instruction, i)
-
-			// if we did get a close then it's the end of this instruction
-			if len(fs) > 1 {
-				break
-			}
+			// save the instruction parameter
+			d.scratch[i], _ = strconv.Atoi(p)
 		}
-		result += d.mul(instruction)
+		// execute valid mul instruction
+		result += d.mul(d.scratch[:len(rawParams)])
 	}
 
 	return result
