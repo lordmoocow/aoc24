@@ -7,7 +7,7 @@ import (
 )
 
 type Day5 struct {
-	rules map[int][]int
+	rules   map[int][]int
 	updates [][]int
 }
 
@@ -48,7 +48,7 @@ func (d *Day5) checkOrder(update []int) bool {
 		rules := d.rules[page]
 		previousPages := update[:i]
 		for _, r := range rules {
-			if slices.Contains(previousPages, r){
+			if slices.Contains(previousPages, r) {
 				return false
 			}
 		}
@@ -56,7 +56,18 @@ func (d *Day5) checkOrder(update []int) bool {
 	return true
 }
 
-
 func (d *Day5) PartTwo() (result int) {
+	for _, update := range d.updates {
+		if !d.checkOrder(update) {
+			sorted := slices.SortedFunc(slices.Values(update), func(a, b int) int {
+				if slices.Contains(d.rules[b], a) {
+					return -1
+				} else {
+					return 1
+				}
+			})
+			result += sorted[len(sorted)/2]
+		}
+	}
 	return result
 }
