@@ -26,3 +26,23 @@ func BenchmarkDaySixPartOne(b *testing.B) {
 		d.PartOne()
 	}
 }
+
+func TestDaySixPartTwo(t *testing.T) {
+	d := Day6{}
+	d.Init(assets.TestData(6))
+
+	want := 6
+	result := d.PartTwo()
+	if result != want {
+		t.Fatalf(`Day6.PartTwo got %d but expected %d`, result, want)
+	}
+}
+
+func BenchmarkDaySixPartTwo(b *testing.B) {
+	d := Day6{}
+	d.Init(assets.InputData(6))
+
+	for i := 0; i < b.N; i++ {
+		d.PartTwo()
+	}
+}

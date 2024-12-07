@@ -1,6 +1,9 @@
 package days
 
-import "strings"
+import (
+	"slices"
+	"strings"
+)
 
 type vec struct {
 	x, y int
@@ -32,10 +35,12 @@ func (g *guard) turn() {
 
 type Day6 struct {
 	lab   [][]rune
+	path  map[vec]map[vec]bool
 	guard guard
 }
 
 func (d *Day6) Init(input string) {
+	d.path = map[vec]map[vec]bool{}
 	rows := strings.Split(strings.TrimSpace(input), "\n")
 	d.lab = make([][]rune, len(rows))
 	for y, row := range rows {
@@ -47,7 +52,6 @@ func (d *Day6) Init(input string) {
 }
 
 func (d *Day6) PartOne() (result int) {
-	result = 1
 	for {
 		blocked, dist := d.move()
 		result += dist
@@ -64,12 +68,13 @@ func (d *Day6) move() (blocked bool, distance int) {
 		if v == '#' {
 			return true, distance
 		}
-		if v == '.' {
+		if d.path[d.guard.pos] == nil {
 			distance++
+			d.path[d.guard.pos] = map[vec]bool{}
 		}
+		d.path[d.guard.pos][d.guard.dir] = true
 		d.guard.pos.x += d.guard.dir.x
 		d.guard.pos.y += d.guard.dir.y
-		d.lab[d.guard.pos.y][d.guard.pos.x] = 'x'
 
 		if d.guard.dir.x > 0 && d.guard.pos.x == len(d.lab[d.guard.pos.y])-1 {
 			break
@@ -85,9 +90,57 @@ func (d *Day6) move() (blocked bool, distance int) {
 		}
 	}
 
+	// catch the last space
+	if d.path[d.guard.pos] == nil {
+		distance++
+		d.path[d.guard.pos] = map[vec]bool{}
+	}
+	d.path[d.guard.pos][d.guard.dir] = true
 	return false, distance
 }
 
 func (d *Day6) PartTwo() (result int) {
+	clone := d.clone()
+	// calculate initial guard path
+	clone.PartOne()
+
+	for pos := range clone.path {
+		// skip initial position
+		if pos == d.guard.pos {
+			continue
+		}
+		// fresh clone to run again
+		c := d.clone()
+
+		// add new obstruction in path
+		c.lab[pos.y][pos.x] = '#'
+
+		// run guard movement
+		for {
+			if blocked, _ := c.move(); !blocked {
+				break
+			}
+
+			c.guard.turn()
+
+			// have we been this way already?
+			if c.path[c.guard.pos][c.guard.dir] {
+				d.lab[pos.y][pos.x] = 'O'
+				result++
+				break
+			}
+		}
+		// remove the obstacle
+		c.lab[pos.y][pos.x] = '.'
+	}
 	return result
+}
+
+func (d Day6) clone() Day6 {
+	d.path = map[vec]map[vec]bool{}
+	d.lab = slices.Clone(d.lab)
+	for i, row := range d.lab {
+		d.lab[i] = slices.Clone(row)
+	}
+	return d
 }
