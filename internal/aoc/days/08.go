@@ -34,7 +34,7 @@ func (d *Day8) Init(input string) {
 }
 
 func (d *Day8) PartOne() (result int) {
-	d.locateAntinodes()
+	d.locateAntinodes(false)
 	for _, hasAntinode := range d.city {
 		if hasAntinode {
 			result++
@@ -43,7 +43,7 @@ func (d *Day8) PartOne() (result int) {
 	return result
 }
 
-func (d *Day8) locateAntinodes() {
+func (d *Day8) locateAntinodes(resonant bool) {
 	for _, array := range d.antennas {
 		// single antenna cannot produce antinodes
 		if len(array) == 1 {
@@ -52,6 +52,11 @@ func (d *Day8) locateAntinodes() {
 
 		// for each antenna of this freq
 		for _, a := range array {
+			// including resonance means that the antenna itself is also an antinode
+			if resonant {
+				d.city[a] = true
+			}
+
 			// look at location of all _other_ matching freq antennas
 			for _, b := range array {
 				// skip self
@@ -64,8 +69,19 @@ func (d *Day8) locateAntinodes() {
 				dx := b.x - a.x
 				dy := b.y - a.y
 				nodeLoc := vec{b.x + dx, b.y + dy}
-				if nodeLoc.x >= 0 && nodeLoc.y >= 0 && nodeLoc.x <= d.maxX && nodeLoc.y <= d.maxY {
-					d.city[nodeLoc] = true
+
+				for {
+					if nodeLoc.x >= 0 && nodeLoc.y >= 0 && nodeLoc.x <= d.maxX && nodeLoc.y <= d.maxY {
+						d.city[nodeLoc] = true
+
+						if !resonant {
+							break
+						}
+						// for resonant harmonics continue at same distance
+						nodeLoc = vec{nodeLoc.x + dx, nodeLoc.y + dy}
+						continue
+					}
+					break
 				}
 			}
 		}
@@ -73,5 +89,11 @@ func (d *Day8) locateAntinodes() {
 }
 
 func (d *Day8) PartTwo() (result int) {
+	d.locateAntinodes(true)
+	for _, hasAntinode := range d.city {
+		if hasAntinode {
+			result++
+		}
+	}
 	return result
 }
