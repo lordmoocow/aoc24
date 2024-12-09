@@ -57,6 +57,8 @@ func getDay(day int) (d Day, err error) {
 		d = &days.Day7{}
 	case 8:
 		d = &days.Day8{}
+	case 9:
+		d = &days.Day9{}
 
 	default:
 		err = errors.New("not implemented")
