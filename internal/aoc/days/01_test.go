@@ -2,13 +2,19 @@ package days
 
 import (
 	"testing"
-
-	"github.com/lordmoocow/aoc24/internal/assets"
 )
+
+var day1 = `3   4
+4   3
+2   5
+1   3
+3   9
+3   3
+`
 
 func TestDayOnePartOne(t *testing.T) {
 	d := Day1{}
-	d.Init(assets.TestData(1))
+	d.Init(day1)
 
 	want := 11
 	result := d.PartOne()
@@ -18,17 +24,17 @@ func TestDayOnePartOne(t *testing.T) {
 }
 
 func BenchmarkDayOnePartOne(b *testing.B) {
-	d := Day1{}
-	d.Init(assets.InputData(1))
 
 	for i := 0; i < b.N; i++ {
+		d := Day1{}
+		d.Init(day1)
 		d.PartOne()
 	}
 }
 
 func TestDayOnePartTwo(t *testing.T) {
 	d := Day1{}
-	d.Init(assets.TestData(1))
+	d.Init(day1)
 
 	want := 31
 	result := d.PartTwo()
@@ -38,10 +44,10 @@ func TestDayOnePartTwo(t *testing.T) {
 }
 
 func BenchmarkDayOnePartTwo(b *testing.B) {
-	d := Day1{}
-	d.Init(assets.InputData(1))
 
 	for i := 0; i < b.N; i++ {
+		d := Day1{}
+		d.Init(day1)
 		d.PartTwo()
 	}
 }
