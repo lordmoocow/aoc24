@@ -26,3 +26,24 @@ func BenchmarkDayNinePartOne(b *testing.B) {
 		d.PartOne()
 	}
 }
+
+func TestDayNinePartTwo(t *testing.T) {
+	d := Day9{}
+	d.Init(assets.TestData(9))
+
+	want := 2858
+
+	result := d.PartTwo()
+	if result != want {
+		t.Fatalf(`Day9.PartTwo got %d but expected %d`, result, want)
+	}
+}
+
+func BenchmarkDayNinePartTwo(b *testing.B) {
+	d := Day9{}
+	d.Init(assets.InputData(9))
+
+	for i := 0; i < b.N; i++ {
+		d.PartTwo()
+	}
+}
