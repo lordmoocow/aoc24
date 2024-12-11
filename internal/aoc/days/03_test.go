@@ -2,13 +2,13 @@ package days
 
 import (
 	"testing"
-
-	"github.com/lordmoocow/aoc24/internal/assets"
 )
+
+var day3 = `xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))`
 
 func TestDayThreePartOne(t *testing.T) {
 	d := Day3{}
-	d.Init(assets.TestData(3))
+	d.Init(day3)
 
 	want := 161
 
@@ -19,10 +19,10 @@ func TestDayThreePartOne(t *testing.T) {
 }
 
 func BenchmarkDayThreePartOne(b *testing.B) {
-	d := Day3{}
-	d.Init(assets.InputData(3))
 
 	for i := 0; i < b.N; i++ {
+		d := Day3{}
+		d.Init(day3)
 		d.PartOne()
 	}
 }
@@ -39,10 +39,10 @@ func TestDayThreePartTwo(t *testing.T) {
 }
 
 func BenchmarkDayThreePartTwo(b *testing.B) {
-	d := Day3{}
-	d.Init(assets.InputData(3))
 
 	for i := 0; i < b.N; i++ {
+		d := Day3{}
+		d.Init(day3)
 		d.PartTwo()
 	}
 }
