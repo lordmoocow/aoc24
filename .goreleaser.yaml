@@ -38,8 +38,5 @@ changelog:
   sort: asc
   filters:
     exclude:
-      - "^docs:"
-      - "^test:"
       - "^Merge"
-      - "^ci:"
-      - "^cd:"
+      - '^(build|ci|cd|test|docs|chore)(\(.*\))?:'
