@@ -38,7 +38,7 @@ func TestDayTenPartTwo(t *testing.T) {
 	d := Day10{}
 	d.Init(day10)
 
-	want := 2858
+	want := 81
 
 	result := d.PartTwo()
 	if result != want {
