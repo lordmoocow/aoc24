@@ -1,13 +1,15 @@
 package days
 
 import (
+	"fmt"
 	"math"
 	"strconv"
 	"strings"
 )
 
 type Day11 struct {
-	stones []int
+	stones     []int
+	evolutions map[string]int
 }
 
 func (d *Day11) Init(input string) {
@@ -19,32 +21,48 @@ func (d *Day11) Init(input string) {
 	}
 }
 
-func (d *Day11) blink() {
-	stones := make([]int, 0, len(d.stones)+len(d.stones)/25)
+func (d *Day11) blink(count int) int {
+	result := 0
+	d.evolutions = map[string]int{}
+
 	for _, stone := range d.stones {
-		if stone == 0 {
-			stones = append(stones, 1)
-		} else if int(math.Log10(float64(stone)))%2 == 1 {
-			s := strconv.Itoa(stone)
-			mid := len(s) / 2
-			stone, _ = strconv.Atoi(s[:mid])
-			stones = append(stones, stone)
-			stone, _ = strconv.Atoi(s[mid:])
-			stones = append(stones, stone)
-		} else {
-			stones = append(stones, stone*2024)
-		}
+		result += d.evolve(stone, count)
 	}
-	d.stones = stones
+	return result
+}
+
+func (d *Day11) evolve(stone, evolutions int) int {
+	if evolutions == 0 {
+		return 1
+	}
+
+	if c, ok := d.evolutions[fmt.Sprintf("%d|%d", stone, evolutions)]; ok {
+		return c
+	}
+
+	result := 0
+	if stone == 0 {
+		result += d.evolve(1, evolutions-1)
+	} else if int(math.Log10(float64(stone)))%2 == 1 {
+		s := strconv.Itoa(stone)
+		mid := len(s) / 2
+		a, _ := strconv.Atoi(s[:mid])
+		b, _ := strconv.Atoi(s[mid:])
+		result += d.evolve(a, evolutions-1)
+		result += d.evolve(b, evolutions-1)
+	} else {
+		result += d.evolve(stone*2024, evolutions-1)
+	}
+	d.evolutions[fmt.Sprintf("%d|%d", stone, evolutions)] = result
+	return result
 }
 
 func (d *Day11) PartOne() (result int) {
-	for range 25 {
-		d.blink()
-	}
-	return len(d.stones)
+	result = d.blink(25)
+	return result
 }
 
 func (d *Day11) PartTwo() (result int) {
+	result = d.blink(75)
 	return result
 }

@@ -26,4 +26,3 @@ func BenchmarkDayElevenPartOne(b *testing.B) {
 		d.PartOne()
 	}
 }
-
