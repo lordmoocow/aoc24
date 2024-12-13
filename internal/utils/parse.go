@@ -1,17 +1,16 @@
 package utils
 
 import (
+	"bufio"
 	"strconv"
 	"strings"
 )
 
 type ParseOptions struct {
-	row string
 	col string
 }
 
 var DefaultParseOptions = ParseOptions{
-	row: "\n",
 	col: "",
 }
 
@@ -31,34 +30,19 @@ func ParseRuneGrid(input string, options ParseOptions) Grid[rune] {
 func ParseGrid[T GridConstraint](input string, options ParseOptions, val func(v []rune) T) Grid[T] {
 	g := Grid[T]{}
 
-	buf := make([]rune, 0, 10)
-	for i, v := range strings.TrimSpace(input) {
-		buf = append(buf, v)
-
-		// check if we have reached the end of a row
-		if len(options.row) > 0 {
-			if len(buf) >= len(options.row) && string(buf[len(buf)-len(options.row):]) == options.row {
-				if g.width == 0 {
-					g.width = i
-				}
-				if len(buf) > len(options.row) {
-					g.cells = append(g.cells, val(buf[:len(buf)-len(options.row)]))
-				}
-				buf = buf[:0]
-				continue
-			}
+	rowscan := bufio.NewScanner(strings.NewReader(input))
+	for {
+		if !rowscan.Scan() {
+			break
 		}
 
-		// check if we have a complete cell value
-		if len(options.col) == 0 || (len(buf) >= len(options.col) && string(buf[len(buf)-len(options.col):]) == options.col) {
-			g.cells = append(g.cells, val(buf[:len(buf)-len(options.col)]))
-			buf = buf[:0]
-			continue
+		cols := strings.Split(rowscan.Text(), options.col)
+		if g.width == 0 {
+			g.width = len(cols)
 		}
-	}
-
-	if len(buf) > 0 {
-		g.cells = append(g.cells, val(buf))
+		for _, v := range cols {
+			g.cells = append(g.cells, val([]rune(v)))
+		}
 	}
 
 	return g
