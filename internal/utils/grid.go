@@ -53,6 +53,18 @@ func (g *Grid[T]) Set(p Point, v T) bool {
 	return true
 }
 
+func (g *Grid[T]) All() iter.Seq2[Point, T] {
+	return func(yield func(Point, T) bool) {
+		for i := range g.cells {
+			p := Point{i % g.width, i / g.width}
+			v, _ := g.Get(p)
+			if !yield(p, v) {
+				return
+			}
+		}
+	}
+}
+
 func (g *Grid[T]) Find(v T) iter.Seq[Point] {
 	return func(yield func(Point) bool) {
 		for i, cell := range g.cells {
@@ -69,8 +81,8 @@ func (g *Grid[T]) Find(v T) iter.Seq[Point] {
 var (
 	up    = Vec{0, -1}
 	down  = Vec{0, 1}
-	left  = Vec{1, 0}
-	right = Vec{-1, 0}
+	left  = Vec{-1, 0}
+	right = Vec{1, 0}
 )
 
 func (g *Grid[T]) NeighboursUDLR(p Point) iter.Seq2[Point, T] {
