@@ -73,7 +73,7 @@ var (
 	right = Vec{-1, 0}
 )
 
-func (g *Grid[T]) NeighborsStraight(p Point) iter.Seq2[Point, T] {
+func (g *Grid[T]) NeighboursUDLR(p Point) iter.Seq2[Point, T] {
 	return func(yield func(Point, T) bool) {
 		neighbors := []Point{
 			p.Add(&up),

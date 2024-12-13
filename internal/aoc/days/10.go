@@ -45,7 +45,7 @@ func (d *Day10) followTrail(trail []utils.Point, unique bool) {
 		return
 	}
 
-	for next, nextElevation := range d.topography.NeighborsStraight(current) {
+	for next, nextElevation := range d.topography.NeighboursUDLR(current) {
 		if nextElevation-elevation == 1 {
 			t := make([]utils.Point, len(trail)+1)
 			copy(t, trail)
