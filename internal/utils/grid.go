@@ -1,22 +1,24 @@
 package utils
 
-import "iter"
+import (
+	"iter"
+)
 
 type Vec struct {
-	x, y int
+	X, Y int
 }
 
 func (a *Vec) Add(b *Vec) {
-	a.x += b.x
-	a.y += b.y
+	a.X += b.X
+	a.Y += b.Y
 }
 
 type Point Vec
 
 func (a *Point) Add(b *Vec) Point {
 	return Point{
-		a.x + b.x,
-		a.y + b.y,
+		a.X + b.X,
+		a.Y + b.Y,
 	}
 }
 
@@ -33,7 +35,7 @@ func (g *Grid[T]) Bounds() Point {
 
 func (g *Grid[T]) InBounds(p Point) bool {
 	b := g.Bounds()
-	return p.x >= 0 && p.x <= b.x && p.y >= 0 && p.y <= b.y
+	return p.X >= 0 && p.X <= b.X && p.Y >= 0 && p.Y <= b.Y
 }
 
 func (g *Grid[T]) Get(p Point) (v T, ok bool) {
@@ -41,7 +43,7 @@ func (g *Grid[T]) Get(p Point) (v T, ok bool) {
 		return v, false
 	}
 
-	return g.cells[g.width*p.y+p.x], true
+	return g.cells[g.width*p.Y+p.X], true
 }
 
 func (g *Grid[T]) Set(p Point, v T) bool {
@@ -49,7 +51,7 @@ func (g *Grid[T]) Set(p Point, v T) bool {
 		return false
 	}
 
-	g.cells[g.width*p.y+p.x] = v
+	g.cells[g.width*p.Y+p.X] = v
 	return true
 }
 
