@@ -13,12 +13,23 @@ func (a *Vec) Add(b *Vec) {
 	a.Y += b.Y
 }
 
+func (a Vec) MagSqr() int {
+	return (a.X * a.X) + (a.Y + a.Y)
+}
+
 type Point Vec
 
 func (a *Point) Add(b *Vec) Point {
 	return Point{
 		a.X + b.X,
 		a.Y + b.Y,
+	}
+}
+
+func (a *Point) Dist(b *Point) Vec {
+	return Vec{
+		b.X - a.X,
+		b.Y - a.X,
 	}
 }
 
