@@ -13,6 +13,25 @@ func (a *Vec) Add(b *Vec) {
 	a.Y += b.Y
 }
 
+func (a Vec) Add2(b Vec) Vec {
+	return Vec{
+		a.X + b.X,
+		a.Y + b.Y,
+	}
+}
+func (a Vec) Sub(b Vec) Vec {
+	return Vec{
+		a.X - b.X,
+		a.Y - b.Y,
+	}
+}
+func (a Vec) Scale(b int) Vec {
+	return Vec{
+		a.X * b,
+		a.Y * b,
+	}
+}
+
 func (a Vec) MagSqr() int {
 	return (a.X * a.X) + (a.Y + a.Y)
 }
