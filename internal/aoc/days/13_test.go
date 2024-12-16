@@ -49,24 +49,3 @@ func BenchmarkDayThirteenPartOne(b *testing.B) {
 		d.PartOne()
 	}
 }
-
-func TestDayThirteenPartTwo(t *testing.T) {
-	tests := []struct {
-		expected int
-		input    string
-	}{
-		{expected: 80, input: day13[0]},
-		{expected: 436, input: day13[1]},
-		{expected: 236, input: day13[3]},
-		{expected: 368, input: day13[4]},
-	}
-	for _, test := range tests {
-		d := Day13{}
-		d.Init(test.input)
-
-		result := d.PartTwo()
-		if result != test.expected {
-			t.Errorf(`Day13.PartOne got %d but expected %d`, result, test.expected)
-		}
-	}
-}

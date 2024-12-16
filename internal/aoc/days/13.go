@@ -32,9 +32,9 @@ func (d *Day13) Init(input string) {
 		pX, _ := strconv.Atoi(lineP[1][2 : len(lineP[1])-1])
 		pY, _ := strconv.Atoi(lineP[2][2:])
 		d.machines[i] = machine{
-			a:     utils.Vec{aX, aY},
-			b:     utils.Vec{bX, bY},
-			prize: utils.Point{pX, pY},
+			a:     utils.Vec{X: aX, Y: aY},
+			b:     utils.Vec{X: bX, Y: bY},
+			prize: utils.Point{X: pX, Y: pY},
 		}
 	}
 }
