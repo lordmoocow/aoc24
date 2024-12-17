@@ -23,16 +23,16 @@ func (q *Queue[T]) Next() T {
 	return item
 }
 
-type pqitem[T comparable] struct {
+type pqitem[T any] struct {
 	p    int
 	item T
 }
 
-type PriorityQueue[T comparable] struct {
+type PriorityQueue[T any] struct {
 	Queue[pqitem[T]]
 }
 
-func NewPQ[T comparable](cap int) PriorityQueue[T] {
+func NewPQ[T any](cap int) PriorityQueue[T] {
 	return PriorityQueue[T]{
 		Queue: Queue[pqitem[T]]{
 			data: make([]pqitem[T], 0, cap),
