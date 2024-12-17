@@ -25,7 +25,7 @@ func TestDayFourteenPartOne(t *testing.T) {
 	d.room = utils.Vec{X: 10, Y: 6}
 
 	expect := 12
-	result := d.PartTwo()
+	result := d.PartOne()
 	if result != expect {
 		t.Errorf(`Day14.PartOne got %d but expected %d`, result, expect)
 	}
