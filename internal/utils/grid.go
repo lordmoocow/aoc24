@@ -111,19 +111,19 @@ func (g *Grid[T]) Find(v T) iter.Seq[Point] {
 }
 
 var (
-	up    = Vec{0, -1}
-	down  = Vec{0, 1}
-	left  = Vec{-1, 0}
-	right = Vec{1, 0}
+	Up    = Vec{0, -1}
+	Down  = Vec{0, 1}
+	Left  = Vec{-1, 0}
+	Right = Vec{1, 0}
 )
 
 func (g *Grid[T]) NeighboursUDLR(p Point) iter.Seq2[Point, T] {
 	return func(yield func(Point, T) bool) {
 		neighbors := []Point{
-			p.Add(&up),
-			p.Add(&down),
-			p.Add(&left),
-			p.Add(&right),
+			p.Add(&Up),
+			p.Add(&Down),
+			p.Add(&Left),
+			p.Add(&Right),
 		}
 		for _, n := range neighbors {
 			if v, ok := g.Get(n); ok {
