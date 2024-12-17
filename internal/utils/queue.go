@@ -49,6 +49,7 @@ func (q *PriorityQueue[T]) Push(priority int, item T) {
 	q.data[i] = pqitem[T]{priority, item}
 }
 
-func (q *PriorityQueue[T]) Next() T {
-	return q.Queue.Next().item
+func (q *PriorityQueue[T]) Next() (int, T) {
+	n := q.Queue.Next()
+	return n.p, n.item
 }
