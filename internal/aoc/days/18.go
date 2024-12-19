@@ -1,6 +1,10 @@
 package days
 
 import (
+	"fmt"
+	"slices"
+	"time"
+
 	"github.com/gdamore/tcell"
 	"github.com/lordmoocow/aoc24/internal/utils"
 )
@@ -14,20 +18,21 @@ type Day18 struct {
 func (d *Day18) Init(input string) {
 	d.t = 0
 	d.bytes = utils.ParseCoordinates(input)
-	d.memory = utils.NewGrid[rune](71, 71, '.')
+	d.memory = utils.NewGrid[rune](71, 71, ' ')
 }
 
-func (d *Day18) simulate(dt int) {
+func (d *Day18) simulate(dt int) utils.Point {
 	for range dt {
 		if d.t >= len(d.bytes) {
 			break
 		}
 
 		byte := d.bytes[d.t]
-		d.memory.Set(byte, '/')
+		d.memory.Set(byte, 'x')
 
 		d.t++
 	}
+	return d.bytes[d.t-1]
 }
 
 type d18query struct {
@@ -73,7 +78,7 @@ func (d *Day18) path(start, finish utils.Point) []utils.Point {
 		}
 
 		for next, content := range d.memory.NeighboursUDLR(q.pos) {
-			if content == '.' {
+			if content != 'x' {
 				steps := visited[q.pos] + 1
 				if s, exists := visited[next]; !exists || steps < s {
 					visited[next] = steps
@@ -106,7 +111,7 @@ func (d *Day18) PartOne() (result int) {
 		for {
 			d.render()
 			for _, p := range path {
-				screen.SetContent(p.X, p.Y, 'o', nil, tcell.StyleDefault)
+				screen.SetContent(p.X, p.Y, '●', nil, tcell.StyleDefault)
 			}
 			screen.Show()
 			//time.Sleep(100 * time.Millisecond)
@@ -125,6 +130,41 @@ func (d *Day18) PartOne() (result int) {
 }
 
 func (d *Day18) PartTwo() (result int) {
+	screen, _ = tcell.NewScreen()
+	if screen != nil {
+		screen.Init()
+		screen.Clear()
+	}
+
+	d.simulate(1024)
+	path := d.path(utils.Point{X: 0, Y: 0}, d.memory.Bounds())
+	for {
+		// if the byte corrupted our path then we need to reevaluate
+		byte := d.simulate(1)
+		if i := slices.Index(path, byte); i > -1 {
+			// restart from step before this byte
+			altPath := d.path(path[i-1], d.memory.Bounds())
+			// if we got no route then this is the end :(
+			if len(altPath) == 0 {
+				defer fmt.Printf("%d,%d", byte.X, byte.Y)
+				break
+			}
+			// rebuild path with alternative route
+			path = append(path[:i-1], altPath...)
+		}
+
+		if screen != nil {
+			d.render()
+			for _, p := range path {
+				screen.SetContent(p.X, p.Y, '●', nil, tcell.StyleDefault)
+			}
+			screen.Show()
+			time.Sleep(1 * time.Millisecond)
+		}
+	}
+	if screen != nil {
+		screen.Fini()
+	}
 	return result
 }
 
