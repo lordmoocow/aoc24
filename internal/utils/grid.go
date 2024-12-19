@@ -55,12 +55,25 @@ func (a *Point) Dist(b *Point) Vec {
 type GridConstraint = comparable
 
 type Grid[T GridConstraint] struct {
-	cells []T
-	width int
+	cells  []T
+	height int
+	width  int
+}
+
+func NewGrid[T GridConstraint](width, height int, intialCellValue T) Grid[T] {
+	g := Grid[T]{
+		cells:  make([]T, width*height),
+		height: height,
+		width:  width,
+	}
+	for i := range g.cells {
+		g.cells[i] = intialCellValue
+	}
+	return g
 }
 
 func (g *Grid[T]) Bounds() Point {
-	return Point{g.width - 1, (len(g.cells) / g.width) - 1}
+	return Point{g.width - 1, g.height - 1}
 }
 
 func (g *Grid[T]) InBounds(p Point) bool {

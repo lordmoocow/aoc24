@@ -47,3 +47,15 @@ func ParseGrid[T GridConstraint](input string, options ParseOptions, val func(v 
 
 	return g
 }
+
+func ParseCoordinates(input string) []Point {
+	lines := strings.Split(strings.TrimSpace(input), "\n")
+	coords := make([]Point, len(lines))
+	for i, line := range lines {
+		mid := strings.Index(line, ",")
+		x, _ := strconv.Atoi(line[:mid])
+		y, _ := strconv.Atoi(line[mid+1:])
+		coords[i] = Point{x, y}
+	}
+	return coords
+}
